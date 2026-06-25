@@ -1,0 +1,37 @@
+{
+  "data": "2026-06-25T19:54:07.485Z",
+  "total": 6,
+  "ok": 0,
+  "links": [
+    {
+      "url": "https://www.google.com",
+      "status": 0,
+      "ok": false
+    },
+    {
+      "url": "https://www.github.com",
+      "status": 0,
+      "ok": false
+    },
+    {
+      "url": "https://www.wikipedia.org",
+      "status": 0,
+      "ok": false
+    },
+    {
+      "url": "https://www.npmjs.com",
+      "status": 0,
+      "ok": false
+    },
+    {
+      "url": "https://link-que-nao-existe.xyz",
+      "status": 0,
+      "ok": false
+    },
+    {
+      "url": "https://nodejs.org",
+      "status": 0,
+      "ok": false
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Validador de Links</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header>
+  <h1>Validador de Links</h1>
+  <p>Verificacao HTTP via metodo HEAD &nbsp;|&nbsp; Node.js + Express</p>
+</header>
+
+<div class="actions">
+  <button class="btn-primary"   id="btnVerificar" onclick="verificar()">Verificar Agora</button>
+  <button class="btn-secondary" onclick="carregar()">Ver Ultimo Resultado</button>
+</div>
+
+<div id="app">
+  <div class="msg">
+    <span class="icon">&#128269;</span>
+    Clique em "Verificar Agora" para comecar.
+  </div>
+</div>
+
+<script>
+async function verificar() {
+  const btn = document.getElementById('btnVerificar')
+  btn.disabled = true
+  btn.textContent = 'Verificando...'
+  setMsg('&#9203;', 'Verificando links, aguarde...')
+
+  try {
+    const res   = await fetch('/verificar', { method: 'POST' })
+    const dados = await res.json()
+    if (!dados.ok) { setMsg('&#10060;', 'Erro no verificador.'); return }
+    await carregar()
+  } catch {
+    setMsg('&#10060;', 'Servidor offline. Execute: node server.js')
+  } finally {
+    btn.disabled = false
+    btn.textContent = 'Verificar Agora'
+  }
+}
+
+async function carregar() {
+  setMsg('&#9203;', 'Carregando resultados...')
+  try {
+    const res   = await fetch('/resultados')
+    const dados = await res.json()
+
+    if (dados.erro) { setMsg('&#9888;', dados.erro); return }
+
+    const falhas = dados.total - dados.ok
+    const pct    = Math.round((dados.ok / dados.total) * 100)
+    const data   = new Date(dados.data).toLocaleString('pt-BR')
+
+    let html = '<div class="stats">'
+    html += stat('total', dados.total, 'Total')
+    html += stat('ok',    dados.ok,    'Validos')
+    html += stat('fail',  falhas,      'Invalidos')
+    html += '</div>'
+    html += '<div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>'
+    html += '<p class="data-info">Verificado em ' + data + ' &nbsp;|&nbsp; ' + pct + '% OK</p>'
+    html += '<div class="links">'
+    dados.links.forEach(function(l) {
+      var cls = l.ok ? 'ok' : 'fail'
+      html += '<div class="link-card ' + cls + '">'
+      html += '<span class="url">' + l.url + '</span>'
+      html += '<span class="badge">HTTP ' + (l.status || 'erro') + '</span>'
+      html += '</div>'
+    })
+    html += '</div>'
+
+    document.getElementById('app').innerHTML = html
+    setTimeout(function() {
+      document.getElementById('bar').style.width = pct + '%'
+    }, 80)
+
+  } catch {
+    setMsg('&#10060;', 'Erro ao carregar resultados.')
+  }
+}
+
+function stat(cls, val, lbl) {
+  return '<div class="stat ' + cls + '"><div class="val">' + val + '</div><div class="lbl">' + lbl + '</div></div>'
+}
+
+function setMsg(icon, texto) {
+  document.getElementById('app').innerHTML =
+    '<div class="msg"><span class="icon">' + icon + '</span>' + texto + '</div>'
+}
+</script>
+</body>
+</html>

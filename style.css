@@ -1,0 +1,94 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0f1117;
+  color: #e4e6f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px;
+}
+
+/* Cabecalho */
+header { text-align: center; margin-bottom: 40px; }
+header h1 { font-size: 2rem; font-weight: 800; color: #7c6af7; }
+header p  { color: #7b82a0; margin-top: 6px; font-size: 14px; }
+
+/* Botoes */
+.actions { display: flex; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; justify-content: center; }
+
+button {
+  padding: 11px 28px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s, transform .1s;
+}
+button:active   { transform: scale(.97); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn-primary   { background: #7c6af7; color: #fff; }
+.btn-secondary { background: transparent; border: 1px solid #2e3350; color: #7b82a0; }
+.btn-secondary:hover { border-color: #7c6af7; color: #7c6af7; }
+
+/* Cards de estatistica */
+.stats { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
+.stat {
+  background: #1a1d27;
+  border: 1px solid #2e3350;
+  border-radius: 12px;
+  padding: 18px 32px;
+  text-align: center;
+  min-width: 110px;
+}
+.stat .val { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.stat .lbl { font-size: 11px; color: #7b82a0; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.stat.total .val { color: #7c6af7; }
+.stat.ok    .val { color: #3ecf8e; }
+.stat.fail  .val { color: #e05c5c; }
+
+/* Barra de progresso */
+.progress-wrap {
+  width: 100%; max-width: 680px;
+  height: 8px; background: #1a1d27;
+  border-radius: 99px; overflow: hidden;
+  margin-bottom: 10px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3ecf8e, #56cfba);
+  border-radius: 99px;
+  transition: width .8s ease;
+  width: 0%;
+}
+.data-info { font-size: 12px; color: #7b82a0; margin-bottom: 28px; }
+
+/* Lista de links */
+.links { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 8px; }
+
+.link-card {
+  background: #1a1d27;
+  border: 1px solid #2e3350;
+  border-radius: 10px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.link-card.ok   { border-left: 3px solid #3ecf8e; }
+.link-card.fail { border-left: 3px solid #e05c5c; }
+.link-card .url   { flex: 1; font-size: 13px; word-break: break-all; color: #c9cfe0; }
+.link-card .badge {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
+}
+.link-card.ok   .badge { background: rgba(62,207,142,.12); color: #3ecf8e; border: 1px solid #3ecf8e; }
+.link-card.fail .badge { background: rgba(224,92,92,.12);  color: #e05c5c; border: 1px solid #e05c5c; }
+
+/* Estado vazio / loading / erro */
+.msg { text-align: center; padding: 60px 20px; color: #7b82a0; }
+.msg .icon { font-size: 2.8rem; display: block; margin-bottom: 14px; }
